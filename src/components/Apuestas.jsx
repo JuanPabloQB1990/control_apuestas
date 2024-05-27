@@ -2,19 +2,16 @@ import { useContext, useEffect } from "react";
 import { ApuestaContext } from "../context/ApuestaProvider";
 import { formatearFecha } from "../helpers/formatearFecha";
 import { formatearGanancia } from "../helpers/formatearMoneda";
+import { colorResultado } from "../helpers/colorResultado";
 
 
 const Apuestas = () => {
     
 const { apuestasUsuario, seleccionEditarApuesta } = useContext(ApuestaContext)
 
-console.log(apuestasUsuario);
-
 const handleEditarApuesta = (apuesta) => {
-  
   seleccionEditarApuesta(apuesta)
 }
-
 
   return (
     <table className="tabla_apuestas">
@@ -32,7 +29,6 @@ const handleEditarApuesta = (apuesta) => {
       </thead>
       <tbody>
         {apuestasUsuario.map(apuesta => {
-          
           return (
                   <tr key={apuesta.id} className="rows-data">
                     <td>{formatearFecha(apuesta.fecha)}</td>
@@ -40,7 +36,7 @@ const handleEditarApuesta = (apuesta) => {
                     <td>{apuesta.cuota}</td>
                     <td>{apuesta.stake}</td>
                     <td>{formatearGanancia(apuesta.inversion)}</td>
-                    <td>{apuesta.resultado}</td>
+                    <td className={`fw-bolder ${colorResultado(apuesta.resultado)}`}>{apuesta.resultado}</td>
                     <td>{formatearGanancia(apuesta.ganancia)}</td>
                     
                     <td style={{width: 53}}>

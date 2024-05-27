@@ -31,6 +31,8 @@
     grid-template-columns: repeat(7, 14.28%);
     height: 170px;
     margin-top: 70px;
+    position: sticky;
+    top: 56px;
 }
 
 .info-3 {
@@ -61,6 +63,8 @@
 .info-8 {
     grid-column: 2;
     grid-row: 4;
+    font-size: 16px;
+    color: greenyellow;
 }
 
 .info-9 {
@@ -176,6 +180,19 @@
 .info-27 {
     grid-column: 7;
     grid-row: 6;
+    font-size: 20px;
+    color: greenyellow;
+}
+
+.tabla_apuestas thead {
+    position: sticky;
+    top: 226px;
+    background-color: black;
+    color: white;
+}
+
+.tabla_apuestas tbody {
+    overflow: scroll;
 }
 
 .tabla_apuestas {

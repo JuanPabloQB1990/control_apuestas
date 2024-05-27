@@ -45,22 +45,25 @@ const ApuestaProvider = ({ children }) => {
     setApuestasUsuario(apuestas);
   }, [userData]);
 
-  const crearApuesta = useCallback(
-    async (apuesta) => {
+  const crearApuesta = async (apuesta) => {
+      console.log(apuesta);
       await addDoc(collection(db, "apuestas"), apuesta);
       obtenerApuestas();
-    },
-    [obtenerApuestas]
-  );
+    };
 
   useEffect(() => {
     obtenerApuestas();
   }, [obtenerApuestas]);
 
   const seleccionEditarApuesta = async (apuesta) => {
+
+
+
     setActualizarApuestaFiltrada(apuesta)
     setEditandoApuesta(true)
     setShow(true)
+
+
     
   };
 

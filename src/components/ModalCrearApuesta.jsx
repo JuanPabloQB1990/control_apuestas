@@ -25,7 +25,7 @@ const ModalCrearApuesta = () => {
   });
 
   useEffect(() => {
-    console.log(actualizarApuestaFiltrada);
+    
     if (editandoApuesta) {
       setLineas(actualizarApuestaFiltrada.lineas)
       setApuesta(actualizarApuestaFiltrada)
@@ -53,52 +53,62 @@ const ModalCrearApuesta = () => {
   };
 
   const handleStake = (e) => {
-    console.log(e);
+   
     setStake(e.target.value)
 
-    
   }
 
   useEffect(() => {
     
-    const totalCuota = lineas.reduce((acum, value) => {
-      return acum * value.cuota;
-    }, 1);
+    if (!editandoApuesta) {
+      let cuotas = []
   
-    let res = [];
-  
-    lineas.map((linea) => {
-      res.push(linea.resultado);
-    });
-  
-    let resultado;
-  
-    if (res.includes("Pendiente")) {
-      resultado = "Pendiente";
-    } else if (res.includes("Ganada") && res.includes("Nula")) {
-      resultado = "Ganada";
-    } else if (res.includes("Ganada")) {
-      resultado = "Ganada";
-    } else if (res.includes("Perdida")) {
-      resultado = "Perdida";
+      lineas.map((linea) => {
+        if (linea.resultado !== "Nula") {
+          cuotas.push(linea.cuota)
+        }
+      })
+      
+      const totalCuota = cuotas.reduce((acum, value) => {
+        return acum * value;
+      }, 1);
+    
+      let res = [];
+    
+      lineas.map((linea) => {
+        res.push(linea.resultado);
+      });
+    
+      let resultado;
+    
+      if (res.includes("Pendiente")) {
+        resultado = "Pendiente";
+      } else if (res.includes("Ganada") && res.includes("Nula")) {
+        resultado = "Ganada";
+      }else if (res.includes("Nula")){
+        resultado = "Nula";
+      } else if (res.includes("Ganada")) {
+        resultado = "Ganada";
+      } else if (res.includes("Perdida")) {
+        resultado = "Perdida";
+      }
+
+      setApuesta({...apuesta,
+        id: editandoApuesta ? apuesta.id : Date.now(),
+        fecha: editandoApuesta ? apuesta.fecha : Date.now(),
+        cuota: totalCuota.toFixed(2),
+        stake: stake,
+        inversion: (stake * (1 * userData.bank_inicial)) / 100,
+        tipo: lineas.length > 1 ? "Combinada" : "Simple",
+        resultado: resultado,
+        ganancia: resultado === "Ganada" || resultado === "Pendiente" ? Math.round(((stake * (1 * userData.bank_inicial)) / 100) * totalCuota.toFixed(2)-(stake * (1 * userData.bank_inicial)) / 100) : resultado === "Nula" ? 0 : 0 - (stake * (1 * userData.bank_inicial)) / 100,
+        lineas: lineas,
+        id_usuario: userData.uid
+      });
+      
     }
 
-    setApuesta({...apuesta,
-      id: editandoApuesta ? apuesta.id : Date.now(),
-      fecha: editandoApuesta ? apuesta.fecha : Date.now(),
-      cuota: totalCuota.toFixed(2),
-      stake: stake,
-      inversion: (stake * (1 * userData.bank_inicial)) / 100,
-      tipo: lineas.length > 1 ? "Combinada" : "Simple",
-      resultado: resultado,
-      ganancia: Math.round(((stake * (1 * userData.bank_inicial)) / 100) * totalCuota.toFixed(2)),
-      lineas: lineas,
-      id_usuario: userData.uid
-    });
-
-    console.log(apuesta);
   }, [stake]);
-  
 
   const agregarLinea = () => {
     setLineas([...lineas, { ...linea, id: Date.now()}]);
@@ -117,8 +127,26 @@ const ModalCrearApuesta = () => {
 
   const cargarApuesta = () => {
     
-    const totalCuota = lineas.reduce((acum, value) => {
-      return acum * value.cuota;
+    let cuotas = []
+    let cuotasNulas = []
+
+    if (lineas.every(linea => { return linea.resultado === "Nula"})) {
+      lineas.map(linea => {
+        cuotas.push(linea.cuota)
+      })
+    }else{
+      lineas.map((linea) => {
+        if (linea.resultado !== "Nula") {
+          cuotas.push(linea.cuota)
+        }
+        
+      })
+    }
+    
+    console.log(cuotas);
+
+    const totalCuota = cuotas.reduce((acum, value) => {
+      return acum * value;
     }, 1);
   
     let res = [];
@@ -133,12 +161,14 @@ const ModalCrearApuesta = () => {
       resultado = "Pendiente";
     } else if (res.includes("Ganada") && res.includes("Nula")) {
       resultado = "Ganada";
-    } else if (res.includes("Ganada")) {
+    }else if (res.includes("Nula")){
+      resultado = "Nula";
+    }else if (res.includes("Ganada")) {
       resultado = "Ganada";
     } else if (res.includes("Perdida")) {
       resultado = "Perdida";
     }
-    
+
     setApuesta({...apuesta,
       id: editandoApuesta ? apuesta.id : Date.now(),
       fecha: editandoApuesta ? apuesta.fecha : Date.now(),
@@ -147,7 +177,7 @@ const ModalCrearApuesta = () => {
       inversion: (stake * (1 * userData.bank_inicial)) / 100,
       tipo: lineas.length > 1 ? "Combinada" : "Simple",
       resultado: resultado,
-      ganancia: Math.round(((stake * (1 * userData.bank_inicial)) / 100) * totalCuota.toFixed(2)),
+      ganancia: resultado === "Ganada" || resultado === "Pendiente" ? Math.round(((stake * (1 * userData.bank_inicial)) / 100) * totalCuota.toFixed(2)-(stake * (1 * userData.bank_inicial)) / 100) : resultado === "Nula" ? 0 : 0 - (stake * (1 * userData.bank_inicial)) / 100,
       lineas: lineas,
       id_usuario: userData.uid
     });
@@ -155,7 +185,7 @@ const ModalCrearApuesta = () => {
   
 
   const guardarApuesta = () => {
-
+    console.log(apuesta);
     crearApuesta(apuesta)
     handleClose();
   };
@@ -319,9 +349,9 @@ const ModalCrearApuesta = () => {
               <h5>Tipo</h5>
               {apuesta.tipo}
             </div>
-            <div className="col border border-success rounded text-success">
+            <div className={`col border  rounded ${apuesta.ganancia > 0 ? "text-success border-success" : "text-danger border-danger"}`}>
               <h5>Ganancia</h5>
-              {apuesta.ganancia}
+              {formatearGanancia(apuesta.ganancia)}
             </div>
           </section>
           <button
@@ -438,8 +468,8 @@ const ModalCrearApuesta = () => {
         <Button variant="secondary" className="mx-2" onClick={() => cargarApuesta()}>
                 Cargar
         </Button>
-        <Button variant="primary" onClick={actualizarApuestaFiltrada ? actualizarApuesta : guardarApuesta}>
-          {actualizarApuestaFiltrada ? "Editar" : "Crear Apuesta"}
+        <Button variant="primary" onClick={editandoApuesta ? actualizarApuesta : guardarApuesta}>
+          {editandoApuesta ? "Editar" : "Crear Apuesta"}
         </Button>
         <Button variant="danger" className="mx-2" onClick={() => eliminarApuesta(apuesta.id)}>
                 Eliminar
