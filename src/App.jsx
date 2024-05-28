@@ -7,6 +7,7 @@ import RutaProtegida from "./security/RutaProtegida"
 import { useContext } from "react"
 import { AuthContext } from "./context/AuthProvider"
 import ModalCrearApuesta from "./components/ModalCrearApuesta"
+import { ToastContainer } from "react-toastify"
 
 function App() {
 

@@ -3,6 +3,7 @@ import Apuestas from "../components/Apuestas";
 import { AuthContext } from "../context/AuthProvider";
 import { ApuestaContext } from "../context/ApuestaProvider";
 import { formatearGanancia } from "../helpers/formatearMoneda";
+import { Bounce, ToastContainer, toast } from 'react-toastify';
 
 const ControlApuestas = () => {
   const { userData } = useContext(AuthContext);
@@ -54,6 +55,7 @@ const ControlApuestas = () => {
     setGananciaNeta(gananciaNeta);
     setTotalInvertido(totInvertido);
     setPromCuota(totCuotas/apuestasUsuario.length);
+    
   },[apuestasUsuario])
   
   useEffect(() => {
@@ -75,7 +77,7 @@ const ControlApuestas = () => {
         <div className="info info-5">Stake 1</div>
         <div className="info info-6">{formatearGanancia((1*userData.bank_inicial)/100)}</div>
         <div className="info info-7">Yield</div>
-        <div className="info info-8">{(gananciaNeta/totalInvertido)*100} %</div>
+        <div className="info info-8">{((gananciaNeta/totalInvertido)*100).toFixed(2)} %</div>
         <div className="info info-9">Total Picks</div>
         <div className="info info-10">{apuestasUsuario.length}</div>
         <div className="info info-11">Ganados</div>
@@ -115,7 +117,7 @@ const ControlApuestas = () => {
         <div className="info info-20">Nulas</div>
         <div className="info info-21">{nulas}</div>
         <div className="info info-22">Cuota Media</div>
-        <div className="info info-23">{promCuota}</div>
+        <div className="info info-23">{promCuota.toFixed(2)}</div>
         <div className="info info-24">Total Invertido</div>
         <div className="info info-25">{formatearGanancia(totalInvertido)}</div>
         <div className="info info-26">Ganancia Neta</div>

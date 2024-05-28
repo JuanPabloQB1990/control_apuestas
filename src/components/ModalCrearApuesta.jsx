@@ -6,9 +6,9 @@ import { AuthContext } from "../context/AuthProvider";
 import { formatearGanancia } from "../helpers/formatearMoneda";
 
 const ModalCrearApuesta = () => {
-  const { show, setShow, crearApuesta, actualizarApuestaFiltrada, editarApuesta, editandoApuesta, setEditandoApuesta, eliminarApuestaDB } = useContext(ApuestaContext);
+  const { mercados, show, setShow, crearApuesta, actualizarApuestaFiltrada, editarApuesta, editandoApuesta, setEditandoApuesta, eliminarApuestaDB } = useContext(ApuestaContext);
   const { userData } = useContext(AuthContext);
-
+  console.log(mercados);
   const [showLinea, setShowLinea] = useState(false);
   const [apuesta, setApuesta] = useState({});
   const [lineas, setLineas] = useState([]);
@@ -187,6 +187,7 @@ const ModalCrearApuesta = () => {
   const guardarApuesta = () => {
     console.log(apuesta);
     crearApuesta(apuesta)
+
     handleClose();
   };
 
@@ -408,16 +409,12 @@ const ModalCrearApuesta = () => {
             </div>
             <div className="form-floating mb-2">
               <div className="form-floating mb-2">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="mercado"
-                  placeholder="Ingresa Mercado"
-                  name="mercado"
-                  onChange={handleAgregarLinea}
-                  value={linea.mercado}
-                />
-                <label htmlFor="mercado">Mercado</label>
+                <select className="form-select" aria-label="Default select example" name="mercado" onChange={handleAgregarLinea}>
+                  <option selected>Selecciona un mercado</option>
+                  {mercados.map(mercado => {
+                    return <option key={mercado.id} selected={editandoApuesta ? mercado.nombre_mercado === linea.mercado ? true : false : null} value={mercado.nombre_mercado}>{mercado.nombre_mercado}</option>
+                  })}
+                </select>
               </div>
             </div>
             <div className="form-floating mb-2">
