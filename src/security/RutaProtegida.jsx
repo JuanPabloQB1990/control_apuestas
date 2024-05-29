@@ -8,7 +8,7 @@ const RutaProtegida = () => {
     const navigate = useNavigate()
     
     useEffect(() => {
-      if (userAuth === false) {
+      if (userAuth === null) {
           return navigate("/login")
       }
       
