@@ -27,7 +27,7 @@ function App() {
 
           </Route>
           <Route path="/registro" element={<Registro/>}/>
-          <Route path="/login" element={<Login/>}/>
+          <Route path="/login" element={<Login/>} index/>
         </Routes>
       </BrowserRouter>
       <ModalCrearApuesta/>
