@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { ApuestaContext } from "../context/ApuestaProvider";
 import { formatearFecha } from "../helpers/formatearFecha";
 import { formatearGanancia } from "../helpers/formatearMoneda";

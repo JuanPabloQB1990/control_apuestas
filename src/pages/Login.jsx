@@ -19,7 +19,7 @@ const Login = () => {
       e.preventDefault()
 
       await loginUsuarios()
-      console.log(email ," ", password);
+      
     }
 
     return (

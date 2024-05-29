@@ -73,7 +73,6 @@ const AuthProvider = ({ children }) => {
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
         setMessage("");
         if (errorCode === "auth/email-already-in-use") {
           setErrors("Este email ya se encuentra registrado");
@@ -99,7 +98,6 @@ const AuthProvider = ({ children }) => {
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
 
         if (errorCode === "auth/invalid-credential") {
           setErrors("Password incorrecta");
@@ -109,12 +107,8 @@ const AuthProvider = ({ children }) => {
 
   const cerrarSesion = () => {
     signOut(auth)
-      .then(() => {
-        
-      })
-      .catch((error) => {
-        
-      });
+    setEmail("")
+    setPassword("")
   };
 
   return (
