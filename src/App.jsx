@@ -21,7 +21,7 @@ function App() {
       <BrowserRouter>
       { userAuth && <Navbar/> }
         <Routes>
-          <Route path="/control-apuestas" element={<RutaProtegida />}>
+          <Route path="/" element={<RutaProtegida />}>
             <Route index element={<ControlApuestas/>}/>
 
           </Route>
