@@ -12,8 +12,8 @@ import { ToastContainer } from "react-toastify"
 function App() {
 
   const { userAuth } = useContext(AuthContext)
-
-  if (userAuth === null ) {
+  console.log(userAuth);
+  if (userAuth === false ) {
     return <h1>Cargando...</h1>
   }
 

@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [userAuth, setUserAuth] = useState(null);
+  const [userAuth, setUserAuth] = useState(false);
   const [errors, setErrors] = useState("");
   const [message, setMessage] = useState("");
   const [userData, setUserData] = useState({});
@@ -35,15 +35,17 @@ const AuthProvider = ({ children }) => {
   }, [userAuth]);
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsuscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserAuth(user);
       } else {
         setUserAuth(null);
       }
+
+      return () => unsuscribe()
     });
 
-  }, [userAuth]);
+  }, []);
   
   //console.log(userAuth.uid);
 
