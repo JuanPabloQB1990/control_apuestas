@@ -7,7 +7,6 @@ import RutaProtegida from "./security/RutaProtegida"
 import { useContext } from "react"
 import { AuthContext } from "./context/AuthProvider"
 import ModalCrearApuesta from "./components/ModalCrearApuesta"
-import { ToastContainer } from "react-toastify"
 
 function App() {
 
@@ -27,7 +26,7 @@ function App() {
 
           </Route>
           <Route path="/registro" element={<Registro/>}/>
-          <Route path="/login" element={<Login/>} index/>
+          <Route path="/login" element={<Login/>}/>
         </Routes>
       </BrowserRouter>
       <ModalCrearApuesta/>
