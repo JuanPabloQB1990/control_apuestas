@@ -94,6 +94,8 @@ const AuthProvider = ({ children }) => {
       .then((userCredential) => {
         const user = userCredential.user;
         setUserAuth(user);
+        setEmail("")
+        setPassword("")
       })
       .catch((error) => {
         const errorCode = error.code;
