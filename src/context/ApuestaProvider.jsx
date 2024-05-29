@@ -31,7 +31,7 @@ const ApuestaProvider = ({ children }) => {
   const [editandoApuesta, setEditandoApuesta] = useState(false);
 
   const obtenerApuestas = useCallback(async (mercado) => {
-    console.log(mercado);
+    
     const apuestas = [];
 
     if (mercado == undefined || mercado === "Todos los mercados") {
@@ -49,15 +49,10 @@ const ApuestaProvider = ({ children }) => {
         apuestas.push(doc.data());
       });
       const datos = apuestas.filter(apuesta => apuesta.lineas.map(linea => linea.mercado == mercado)[0])
-      console.log(datos);
-      //apuesta.lineas.map(linea => linea.mercado == mercado)[0]
+      
       setApuestasUsuario(datos);
     }
 }, [userData]);
-
-console.log(apuestasUsuario);
-  
-  
 
   const obtenerMercados = async() => {
     const mercados = []

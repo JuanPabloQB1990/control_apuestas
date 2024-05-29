@@ -10,7 +10,7 @@ const Login = () => {
 
     useEffect(() => {
         if (userAuth) {
-          navigate("/control-apuestas");
+          navigate("/");
           
         }
       }, [userAuth, navigate]);

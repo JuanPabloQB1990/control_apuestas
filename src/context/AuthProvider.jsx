@@ -53,8 +53,7 @@ const AuthProvider = ({ children }) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
-
+        
         setDoc(doc(db, "usuarios", user.uid), {
           uid: user.uid,
           nombre: name,
@@ -75,8 +74,6 @@ const AuthProvider = ({ children }) => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
         setMessage("");
         if (errorCode === "auth/email-already-in-use") {
           setErrors("Este email ya se encuentra registrado");
@@ -102,8 +99,6 @@ const AuthProvider = ({ children }) => {
         const errorCode = error.code;
         const errorMessage = error.message;
 
-        console.log(errorCode);
-        console.log(errorMessage);
         if (errorCode === "auth/invalid-credential") {
           setErrors("Password incorrecta");
         }
