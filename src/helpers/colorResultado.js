@@ -12,3 +12,13 @@ export const colorResultado = (resultado) => {
     return "text-secondary "
   }
 }
+
+export const colorValor = (resultado) => {
+  
+  if (resultado < 0) {
+    return "text-danger"
+  }
+
+  return "text-success"
+  
+}

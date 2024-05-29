@@ -38,7 +38,6 @@ const handleEditarApuesta = (apuesta) => {
                     <td>{formatearGanancia(apuesta.inversion)}</td>
                     <td className={`fw-bolder ${colorResultado(apuesta.resultado)}`}>{apuesta.resultado}</td>
                     <td>{formatearGanancia(apuesta.ganancia)}</td>
-                    
                     <td style={{width: 53}}>
                       <button type="button" className="btn btn-info my-2" onClick={() => handleEditarApuesta(apuesta)}>
                       <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-zoom-in" width="16" height="16" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#2c3e50" fill="none" strokeLinecap="round" strokeLinejoin="round">

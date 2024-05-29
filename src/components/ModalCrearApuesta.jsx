@@ -8,12 +8,13 @@ import { formatearGanancia } from "../helpers/formatearMoneda";
 const ModalCrearApuesta = () => {
   const { mercados, show, setShow, crearApuesta, actualizarApuestaFiltrada, editarApuesta, editandoApuesta, setEditandoApuesta, eliminarApuestaDB } = useContext(ApuestaContext);
   const { userData } = useContext(AuthContext);
-  console.log(mercados);
+  
   const [showLinea, setShowLinea] = useState(false);
   const [apuesta, setApuesta] = useState({});
   const [lineas, setLineas] = useState([]);
   const [stake, setStake] = useState("");
   const [editing, setEditing] = useState(false);
+  const [mensaje, setMensaje] = useState("");
   
   const [linea, setLinea] = useState({
     liga: "",
@@ -126,10 +127,11 @@ const ModalCrearApuesta = () => {
   };
 
   const cargarApuesta = () => {
-    
+    if (stake === "") {
+      setMensaje("el stake es obligatorio")
+    }
     let cuotas = []
-    let cuotasNulas = []
-
+    
     if (lineas.every(linea => { return linea.resultado === "Nula"})) {
       lineas.map(linea => {
         cuotas.push(linea.cuota)
@@ -143,8 +145,6 @@ const ModalCrearApuesta = () => {
       })
     }
     
-    console.log(cuotas);
-
     const totalCuota = cuotas.reduce((acum, value) => {
       return acum * value;
     }, 1);
@@ -185,7 +185,7 @@ const ModalCrearApuesta = () => {
   
 
   const guardarApuesta = () => {
-    console.log(apuesta);
+    
     crearApuesta(apuesta)
 
     handleClose();
@@ -331,7 +331,7 @@ const ModalCrearApuesta = () => {
               onChange={handleStake}
               value={stake}
             />
-            <label htmlFor="stake">Stake</label>
+            <label htmlFor="stake" className={`${mensaje && !stake ? "text-danger" : ""}`}>{mensaje && !stake ? mensaje : "Stake"}</label>
           </div>
           <section className="row text-center my-3 mx-0">
             <div className="col">

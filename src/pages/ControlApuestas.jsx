@@ -3,11 +3,10 @@ import Apuestas from "../components/Apuestas";
 import { AuthContext } from "../context/AuthProvider";
 import { ApuestaContext } from "../context/ApuestaProvider";
 import { formatearGanancia } from "../helpers/formatearMoneda";
-import { Bounce, ToastContainer, toast } from 'react-toastify';
 
 const ControlApuestas = () => {
   const { userData } = useContext(AuthContext);
-  const { setShow, apuestasUsuario } = useContext(ApuestaContext);
+  const { setShow, apuestasUsuario, mercados, obtenerApuestas } = useContext(ApuestaContext);
 
   const [ganadas, setGanadas] = useState(0);
   const [perdidas, setPerdidas] = useState(0);
@@ -28,7 +27,7 @@ const ControlApuestas = () => {
     let totCuotas = 0
 
     apuestasUsuario.map(apuesta => {
-      console.log(apuesta);
+      
       if (apuesta.resultado === "Ganada") {
         gan = gan + 1
       }
@@ -62,10 +61,14 @@ const ControlApuestas = () => {
     calculosCuenta()
   }, [calculosCuenta]);
 
-  console.log(apuestasUsuario);
-  console.log(userData);
-
   const handleShow = () => setShow(true);
+
+  const handleSeleccionMercado = (e) => {
+    
+    obtenerApuestas(e.target.value)
+    
+  }
+  
 
   return (
     <div>
@@ -92,14 +95,14 @@ const ControlApuestas = () => {
           <button
             onClick={handleShow}
             type="button"
-            className="btn btn-success text-light"
+            className="btn btn-success text-light fs-6 mx-4"
           >
             Agregar Apuesta{" "}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="icon icon-tabler icon-tabler-circle-plus"
-              width="44"
-              height="44"
+              width="24"
+              height="24"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="#2c3e50"
@@ -113,6 +116,12 @@ const ControlApuestas = () => {
               <path d="M12 9v6" />
             </svg>
           </button>
+          <select className="form-select mx-4" aria-label="Default select example" name="mercado" defaultValue="todos" onChange={handleSeleccionMercado}>
+            <option selected>Todos los mercados</option>
+              {mercados.map(mercado => {
+                return <option key={mercado.id} value={mercado.nombre_mercado}>{mercado.nombre_mercado}</option>
+              })}
+          </select>
         </div>
         <div className="info info-20">Nulas</div>
         <div className="info info-21">{nulas}</div>
@@ -121,7 +130,7 @@ const ControlApuestas = () => {
         <div className="info info-24">Total Invertido</div>
         <div className="info info-25">{formatearGanancia(totalInvertido)}</div>
         <div className="info info-26">Ganancia Neta</div>
-        <div className="info info-27">{formatearGanancia(gananciaNeta)}</div>
+        <div className={`info info-27 text-danger ${formatearGanancia(gananciaNeta) > 0 ? "text-success" : "text-danger"}`}>{formatearGanancia(gananciaNeta)}</div>
       </div>
       <Apuestas />
     </div>

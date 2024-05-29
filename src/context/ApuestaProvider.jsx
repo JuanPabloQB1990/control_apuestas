@@ -10,11 +10,9 @@ import {
   collection,
   deleteDoc,
   doc,
-  getDoc,
   getDocs,
   orderBy,
   query,
-  setDoc,
   updateDoc,
   where,
 } from "firebase/firestore";
@@ -32,20 +30,36 @@ const ApuestaProvider = ({ children }) => {
   const [actualizarApuestaFiltrada, setActualizarApuestaFiltrada] = useState({});
   const [editandoApuesta, setEditandoApuesta] = useState(false);
 
-  const obtenerApuestas = useCallback(async () => {
+  const obtenerApuestas = useCallback(async (mercado) => {
+    console.log(mercado);
     const apuestas = [];
 
-    const q = query(collection(db, "apuestas"),  where("id_usuario", "==", userData.uid), orderBy("fecha", "asc"));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      apuestas.push(doc.data());
-    });
+    if (mercado == undefined || mercado === "Todos los mercados") {
+      const q = query(collection(db, "apuestas"),  where("id_usuario", "==", userData.uid), orderBy("fecha", "asc"));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        apuestas.push(doc.data());
+      });
+      setApuestasUsuario(apuestas);
+      
+    }else{
+      const q = query(collection(db, "apuestas"),  where("id_usuario", "==", userData.uid), orderBy("fecha", "asc"));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        apuestas.push(doc.data());
+      });
+      const datos = apuestas.filter(apuesta => apuesta.lineas.map(linea => linea.mercado == mercado)[0])
+      console.log(datos);
+      //apuesta.lineas.map(linea => linea.mercado == mercado)[0]
+      setApuestasUsuario(datos);
+    }
+}, [userData]);
 
-    setApuestasUsuario(apuestas);
-  }, [userData]);
+console.log(apuestasUsuario);
+  
+  
 
   const obtenerMercados = async() => {
-
     const mercados = []
     const q = query(collection(db, "mercados"));
     const querySnapshot = await getDocs(q);
@@ -69,7 +83,7 @@ const ApuestaProvider = ({ children }) => {
     obtenerMercados()
   }, [obtenerApuestas]);
 
-  const seleccionEditarApuesta = async (apuesta) => {
+  const seleccionEditarApuesta = async(apuesta) => {
     setActualizarApuestaFiltrada(apuesta)
     setEditandoApuesta(true)
     setShow(true)
@@ -114,7 +128,8 @@ const ApuestaProvider = ({ children }) => {
         editarApuesta,
         editandoApuesta,
         setEditandoApuesta,
-        eliminarApuestaDB
+        eliminarApuestaDB,
+        obtenerApuestas
       }}
     >
       {children}
