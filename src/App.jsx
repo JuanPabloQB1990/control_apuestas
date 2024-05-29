@@ -11,7 +11,7 @@ import ModalCrearApuesta from "./components/ModalCrearApuesta"
 function App() {
 
   const { userAuth } = useContext(AuthContext)
-  console.log(userAuth);
+  
   if (userAuth === false ) {
     return <h1>Cargando...</h1>
   }
@@ -21,12 +21,12 @@ function App() {
       <BrowserRouter>
       { userAuth && <Navbar/> }
         <Routes>
-          <Route path="/" element={<RutaProtegida />}>
-            <Route index path="control-apuestas" element={<ControlApuestas/>}/>
+          <Route path="/control-apuestas" element={<RutaProtegida />}>
+            <Route index element={<ControlApuestas/>}/>
 
           </Route>
           <Route path="/registro" element={<Registro/>}/>
-          <Route path="/login" element={<Login/>}/>
+          <Route path="/" element={<Login/>}/>
         </Routes>
       </BrowserRouter>
       <ModalCrearApuesta/>
