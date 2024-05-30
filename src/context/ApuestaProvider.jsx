@@ -57,7 +57,7 @@ const ApuestaProvider = ({ children }) => {
 
   const obtenerMercados = async() => {
     const mercados = []
-    const q = query(collection(db, "mercados"));
+    const q = query(collection(db, "mercados"), orderBy("id", "asc"));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       mercados.push(doc.data());
