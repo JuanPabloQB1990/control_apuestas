@@ -41,7 +41,10 @@ const ControlApuestas = () => {
         nul = nul + 1
       }
 
-      gananciaNeta = gananciaNeta + apuesta.ganancia
+      if (apuesta.resultado !== "Pendiente") {
+        gananciaNeta = gananciaNeta + apuesta.ganancia
+        
+      }
       totInvertido = totInvertido + apuesta.inversion
       totCuotas = totCuotas + Number(apuesta.cuota)
       

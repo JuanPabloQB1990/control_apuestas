@@ -25,6 +25,7 @@ export const ApuestaContext = createContext();
 const ApuestaProvider = ({ children }) => {
   const [show, setShow] = useState(false);
   const [mercados, setMercados] = useState([]);
+  const [ligas, setLigas] = useState([]);
   const { userData } = useContext(AuthContext);
   const [apuestasUsuario, setApuestasUsuario] = useState([]);
   const [actualizarApuestaFiltrada, setActualizarApuestaFiltrada] = useState({});
@@ -64,6 +65,17 @@ const ApuestaProvider = ({ children }) => {
 
     setMercados(mercados)
   }
+
+  const obtenerLigas = useCallback(async() => {
+    const ligas = []
+    const q = query(collection(db, "ligas"));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      ligas.push(doc.data());
+    });
+
+    setLigas(ligas)
+  }, [])
   
 
   const crearApuesta = async (apuesta) => {
@@ -76,7 +88,8 @@ const ApuestaProvider = ({ children }) => {
   useEffect(() => {
     obtenerApuestas();
     obtenerMercados()
-  }, [obtenerApuestas]);
+    obtenerLigas()
+  }, [obtenerApuestas, obtenerLigas]);
 
   const seleccionEditarApuesta = async(apuesta) => {
     setActualizarApuestaFiltrada(apuesta)
@@ -116,6 +129,7 @@ const ApuestaProvider = ({ children }) => {
         setShow,
         show,
         mercados,
+        ligas,
         crearApuesta,
         apuestasUsuario,
         seleccionEditarApuesta,

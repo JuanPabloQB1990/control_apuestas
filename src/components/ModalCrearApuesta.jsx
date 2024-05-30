@@ -6,7 +6,7 @@ import { AuthContext } from "../context/AuthProvider";
 import { formatearGanancia } from "../helpers/formatearMoneda";
 
 const ModalCrearApuesta = () => {
-  const { mercados, show, setShow, crearApuesta, actualizarApuestaFiltrada, editarApuesta, editandoApuesta, setEditandoApuesta, eliminarApuestaDB } = useContext(ApuestaContext);
+  const { mercados, ligas, show, setShow, crearApuesta, actualizarApuestaFiltrada, editarApuesta, editandoApuesta, setEditandoApuesta, eliminarApuestaDB } = useContext(ApuestaContext);
   const { userData } = useContext(AuthContext);
   
   const [showLinea, setShowLinea] = useState(false);
@@ -234,7 +234,7 @@ const ModalCrearApuesta = () => {
     setEditing(false)
 
   }
-  
+
   return (
     <Modal
       size="lg"
@@ -366,16 +366,12 @@ const ModalCrearApuesta = () => {
             className={`${showLinea ? "formLineaVisible" : "formLineaHidden"}`}
           >
             <div className="form-floating mb-2">
-              <input
-                type="text"
-                className="form-control"
-                id="liga"
-                placeholder="Liga"
-                name="liga"
-                onChange={handleAgregarLinea}
-                value={linea.liga}
-              />
-              <label htmlFor="liga">Liga</label>
+              <select className="form-select py-2" aria-label="Default select example" name="liga" value={linea.liga} onChange={handleAgregarLinea}>
+                  <option selected>Selecciona una liga</option>
+                  {ligas.map(liga => {
+                    return <option key={liga.id} selected={editandoApuesta ? liga.nombre === linea.liga? true : false : null} value={liga.nombre}>{liga.nombre}</option>
+                  })}
+              </select>
             </div>
             <div className="row g-2 mb-2">
               <div className="col">
@@ -409,7 +405,7 @@ const ModalCrearApuesta = () => {
             </div>
             <div className="form-floating mb-2">
               <div className="form-floating mb-2">
-                <select className="form-select" aria-label="Default select example" name="mercado" onChange={handleAgregarLinea}>
+                <select className="form-select" aria-label="Default select example" name="mercado" value={linea.mercado} onChange={handleAgregarLinea}>
                   <option selected>Selecciona un mercado</option>
                   {mercados.map(mercado => {
                     return <option key={mercado.id} selected={editandoApuesta ? mercado.nombre_mercado === linea.mercado ? true : false : null} value={mercado.nombre_mercado}>{mercado.nombre_mercado}</option>
