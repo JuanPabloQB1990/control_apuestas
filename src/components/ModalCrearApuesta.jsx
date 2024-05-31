@@ -88,7 +88,7 @@ const ModalCrearApuesta = () => {
         resultado = "Ganada";
       }else if (res.includes("Nula")){
         resultado = "Nula";
-      } else if (res.includes("Ganada")) {
+      } else if (res.every(r => r === "Ganada")) {
         resultado = "Ganada";
       } else if (res.includes("Perdida")) {
         resultado = "Perdida";
@@ -144,7 +144,6 @@ const ModalCrearApuesta = () => {
         
       })
     }
-    
     const totalCuota = cuotas.reduce((acum, value) => {
       return acum * value;
     }, 1);
@@ -154,7 +153,7 @@ const ModalCrearApuesta = () => {
     lineas.map((linea) => {
       res.push(linea.resultado);
     });
-  
+   
     let resultado;
   
     if (res.includes("Pendiente")) {
@@ -163,7 +162,7 @@ const ModalCrearApuesta = () => {
       resultado = "Ganada";
     }else if (res.includes("Nula")){
       resultado = "Nula";
-    }else if (res.includes("Ganada")) {
+    }else if (res.every(r => r === "Ganada")){
       resultado = "Ganada";
     } else if (res.includes("Perdida")) {
       resultado = "Perdida";

@@ -15,6 +15,7 @@ const ControlApuestas = () => {
   const [gananciaNeta, setGananciaNeta] = useState(0);
   const [totalInvertido, setTotalInvertido] = useState(0);
   const [promCuota, setPromCuota] = useState(0);
+  const [totalApuestas, setTotalApuestas] = useState(0);
 
   const calculosCuenta = useCallback(() => {
 
@@ -25,6 +26,7 @@ const ControlApuestas = () => {
     let gananciaNeta = 0
     let totInvertido = 0
     let totCuotas = 0
+    let totApuestas = 0
 
     apuestasUsuario.map(apuesta => {
       
@@ -43,9 +45,10 @@ const ControlApuestas = () => {
 
       if (apuesta.resultado !== "Pendiente") {
         gananciaNeta = gananciaNeta + apuesta.ganancia
-        
+        totInvertido = totInvertido + apuesta.inversion
+        totApuestas = totApuestas + 1
       }
-      totInvertido = totInvertido + apuesta.inversion
+
       totCuotas = totCuotas + Number(apuesta.cuota)
       
     })
@@ -57,6 +60,7 @@ const ControlApuestas = () => {
     setGananciaNeta(gananciaNeta);
     setTotalInvertido(totInvertido);
     setPromCuota(totCuotas/apuestasUsuario.length);
+    setTotalApuestas(totApuestas)
     
   },[apuestasUsuario])
   
@@ -83,13 +87,13 @@ const ControlApuestas = () => {
         <div className="info info-5">Stake 1</div>
         <div className="info info-6">{formatearGanancia((1*userData.bank_inicial)/100)}</div>
         <div className="info info-7">Yield</div>
-        <div className="info info-8">{((gananciaNeta/totalInvertido)*100).toFixed(2)} %</div>
+        <div className={`info info-8 ${((gananciaNeta/totalInvertido)*100).toFixed(2) > 0 ? "text-success" : "text-danger"}`}>{((gananciaNeta/totalInvertido)*100).toFixed(2)} %</div>
         <div className="info info-9">Total Picks</div>
         <div className="info info-10">{apuestasUsuario.length}</div>
         <div className="info info-11">Ganados</div>
         <div className="info info-12">{ganadas}</div>
         <div className="info info-13">% Acierto</div>
-        <div className="info info-14">{(ganadas/apuestasUsuario.length*100).toFixed(2)} %</div>
+        <div className={`info info-14 ${(ganadas/totalApuestas*100).toFixed(2) > 0 ? "text-success" : "text-danger"}`}>{(ganadas/totalApuestas*100).toFixed(2)} %</div>
         <div className="info info-15">Total Perdido</div>
         <div className="info info-16">{formatearGanancia(totalPerdido)}</div>
         <div className="info info-17">Perdidos</div>
