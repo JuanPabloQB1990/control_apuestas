@@ -18,7 +18,6 @@ import {
 } from "firebase/firestore";
 import { db } from "../Firebase";
 import { AuthContext } from "./AuthProvider";
-import { toast } from "react-toastify";
 
 export const ApuestaContext = createContext();
 
@@ -29,7 +28,10 @@ const ApuestaProvider = ({ children }) => {
   const { userData } = useContext(AuthContext);
   const [apuestasUsuario, setApuestasUsuario] = useState([]);
   const [actualizarApuestaFiltrada, setActualizarApuestaFiltrada] = useState({});
+  const [actualizarLigaFiltrada, setActualizarLigaFiltrada] = useState({});
   const [editandoApuesta, setEditandoApuesta] = useState(false);
+  const [editandoLiga, setEditandoLiga] = useState(false);
+  const [showModalLiga, setShowModalLiga] = useState(false);
 
   const obtenerApuestas = useCallback(async (mercado) => {
     
@@ -68,7 +70,7 @@ const ApuestaProvider = ({ children }) => {
 
   const obtenerLigas = useCallback(async() => {
     const ligas = []
-    const q = query(collection(db, "ligas"));
+    const q = query(collection(db, "ligas"), orderBy("nombre", "asc"));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       ligas.push(doc.data());
@@ -79,9 +81,7 @@ const ApuestaProvider = ({ children }) => {
   
 
   const crearApuesta = async (apuesta) => {
-      console.log(apuesta);
       await addDoc(collection(db, "apuestas"), apuesta);
-      toast("Apuesta realizada!!");
       obtenerApuestas();
     };
 
@@ -122,7 +122,38 @@ const ApuestaProvider = ({ children }) => {
 
     obtenerApuestas();
   }
+
+  const crearLiga = async (liga) => {
+
+    const nuevaLiga = {
+      id: ligas.length + 1,
+      nombre: liga
+    }
+
+    await addDoc(collection(db, "ligas"), nuevaLiga)
+    obtenerLigas()
+  };
+
+  const seleccionEditarLiga = async(liga) => {
+    
+    setActualizarLigaFiltrada(liga)
+    setShowModalLiga(true)
+    setEditandoLiga(true)
+  }
+
+  const editarLiga = async(ligaEditada) => {
+    
+    const q = query(collection(db, "ligas"), where("id", "==", ligaEditada.id));
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach(async(docu) => {
+      const ligaRef = doc(db, "ligas", docu.id);
+      await updateDoc(ligaRef, ligaEditada)
+    });
+    obtenerLigas()
+  }
   
+
   return (
     <ApuestaContext.Provider
       value={{
@@ -138,7 +169,15 @@ const ApuestaProvider = ({ children }) => {
         editandoApuesta,
         setEditandoApuesta,
         eliminarApuestaDB,
-        obtenerApuestas
+        obtenerApuestas,
+        setShowModalLiga,
+        showModalLiga,
+        crearLiga,
+        seleccionEditarLiga,
+        editandoLiga,
+        actualizarLigaFiltrada,
+        editarLiga,
+        setEditandoLiga
       }}
     >
       {children}

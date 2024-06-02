@@ -225,3 +225,9 @@ form {
 .formLineaHidden {
     display: none;
 }
+
+.ligas {
+    margin-top: 70px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+}

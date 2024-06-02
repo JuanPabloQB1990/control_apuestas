@@ -8,13 +8,13 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-dark bg-dark fixed-top">
       <div className="container-fluid">
-        <NavLink  className="navbar-brand" href="#">Offcanvas dark navbar</NavLink >
+        <NavLink  className="navbar-brand" to="/">Apuestas</NavLink >
         <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="offcanvas offcanvas-end text-bg-dark" tabIndex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
           <div className="offcanvas-header">
-            <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel">Dark offcanvas</h5>
+            <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel">Menu</h5>
             <button type="button" className="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
           <div className="offcanvas-body">
@@ -23,7 +23,7 @@ const Navbar = () => {
                 <NavLink  className="nav-link active" aria-current="page" href="#">Home</NavLink >
               </li>
               <li className="nav-item">
-                <NavLink  className="nav-link" href="#">Link</NavLink >
+                <NavLink  className="nav-link" to="/ligas">Ligas</NavLink >
               </li>
               <li className="nav-item dropdown">
                 <NavLink  className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

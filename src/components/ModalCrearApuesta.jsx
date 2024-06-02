@@ -261,9 +261,9 @@ const ModalCrearApuesta = () => {
                 </tr>
               </thead>
               <tbody>
-                {lineas.map((linea, index) => {
+                {lineas.map((linea) => {
                   return (
-                    <tr key={index}>
+                    <tr key={linea.id}>
                       <td>{linea.liga}</td>
                       <td>{linea.local}</td>
                       <td>{linea.visitante}</td>

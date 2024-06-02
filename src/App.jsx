@@ -7,6 +7,8 @@ import RutaProtegida from "./security/RutaProtegida"
 import { useContext } from "react"
 import { AuthContext } from "./context/AuthProvider"
 import ModalCrearApuesta from "./components/ModalCrearApuesta"
+import ModalAgregarLiga from "./components/ModalAgregarLiga"
+import Ligas from "./pages/Ligas"
 
 function App() {
 
@@ -23,13 +25,14 @@ function App() {
         <Routes>
           <Route path="/" element={<RutaProtegida />}>
             <Route index element={<ControlApuestas/>}/>
-
+            <Route path="/ligas" element={<Ligas/>}/>
           </Route>
           <Route path="/registro" element={<Registro/>}/>
           <Route path="/login" element={<Login/>}/>
         </Routes>
       </BrowserRouter>
       <ModalCrearApuesta/>
+      <ModalAgregarLiga/>
     </>
   )
 }
