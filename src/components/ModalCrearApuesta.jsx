@@ -54,7 +54,6 @@ const ModalCrearApuesta = () => {
   };
 
   const handleStake = (e) => {
-   
     setStake(e.target.value)
 
   }
@@ -109,7 +108,8 @@ const ModalCrearApuesta = () => {
       
     }
 
-  }, [stake]);
+
+  }, [stake, lineas]);
 
   const agregarLinea = () => {
     setLineas([...lineas, { ...linea, id: Date.now()}]);
@@ -124,6 +124,7 @@ const ModalCrearApuesta = () => {
     });
 
     setShowLinea(false);
+
   };
 
   const cargarApuesta = () => {
@@ -182,7 +183,6 @@ const ModalCrearApuesta = () => {
     });
   }
   
-
   const guardarApuesta = () => {
     
     crearApuesta(apuesta)
@@ -456,9 +456,6 @@ const ModalCrearApuesta = () => {
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           Cerrar
-        </Button>
-        <Button variant="secondary" className="mx-2" onClick={() => cargarApuesta()}>
-                Cargar
         </Button>
         <Button variant="primary" onClick={editandoApuesta ? actualizarApuesta : guardarApuesta}>
           {editandoApuesta ? "Editar" : "Crear Apuesta"}
