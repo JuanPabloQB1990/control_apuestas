@@ -9,6 +9,8 @@ import { AuthContext } from "./context/AuthProvider"
 import ModalCrearApuesta from "./components/ModalCrearApuesta"
 import ModalAgregarLiga from "./components/ModalAgregarLiga"
 import Ligas from "./pages/Ligas"
+import Mercados from "./pages/Mercados"
+import ModalAgregarMercado from "./components/ModalAgregarMercado"
 
 function App() {
 
@@ -26,6 +28,7 @@ function App() {
           <Route path="/" element={<RutaProtegida />}>
             <Route index element={<ControlApuestas/>}/>
             <Route path="/ligas" element={<Ligas/>}/>
+            <Route path="/mercados" element={<Mercados/>}/>
           </Route>
           <Route path="/registro" element={<Registro/>}/>
           <Route path="/login" element={<Login/>}/>
@@ -33,6 +36,7 @@ function App() {
       </BrowserRouter>
       <ModalCrearApuesta/>
       <ModalAgregarLiga/>
+      <ModalAgregarMercado/>
     </>
   )
 }

@@ -3,7 +3,7 @@ import { Modal } from "react-bootstrap";
 import { ApuestaContext } from "../context/ApuestaProvider";
 
 const ModalAgregarLiga = () => {
-  const { showModalLiga, setShowModalLiga, crearLiga, actualizarLigaFiltrada, editandoLiga, setEditandoLiga, editarLiga, ligas } = useContext(ApuestaContext);
+  const { showModalLiga, setShowModalLiga, crearLiga, actualizarLigaFiltrada, editandoLiga, setEditandoLiga, editarLiga } = useContext(ApuestaContext);
   const [liga, setLiga] = useState("");
 
   useEffect(() => {

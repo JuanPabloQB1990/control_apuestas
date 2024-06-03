@@ -59,8 +59,6 @@ const ModalCrearApuesta = () => {
   }
 
   useEffect(() => {
-    
-    if (!editandoApuesta) {
       let cuotas = []
   
       lineas.map((linea) => {
@@ -106,9 +104,6 @@ const ModalCrearApuesta = () => {
         id_usuario: userData.uid
       });
       
-    }
-
-
   }, [stake, lineas]);
 
   const agregarLinea = () => {

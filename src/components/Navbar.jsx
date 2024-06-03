@@ -20,7 +20,7 @@ const Navbar = () => {
           <div className="offcanvas-body">
             <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
               <li className="nav-item">
-                <NavLink  className="nav-link active" aria-current="page" href="#">Home</NavLink >
+                <NavLink  className="nav-link active" aria-current="page" to="/mercados">Mercados</NavLink >
               </li>
               <li className="nav-item">
                 <NavLink  className="nav-link" to="/ligas">Ligas</NavLink >

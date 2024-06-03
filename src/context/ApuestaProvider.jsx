@@ -29,9 +29,13 @@ const ApuestaProvider = ({ children }) => {
   const [apuestasUsuario, setApuestasUsuario] = useState([]);
   const [actualizarApuestaFiltrada, setActualizarApuestaFiltrada] = useState({});
   const [actualizarLigaFiltrada, setActualizarLigaFiltrada] = useState({});
+  const [actualizarMercadoFiltrado, setActualizarMercadoFiltrado] = useState({});
   const [editandoApuesta, setEditandoApuesta] = useState(false);
   const [editandoLiga, setEditandoLiga] = useState(false);
+  const [editandoMercado, setEditandoMercado] = useState(false);
   const [showModalLiga, setShowModalLiga] = useState(false);
+  const [showModalMercado, setShowModalMercado] = useState(false);
+
 
   const obtenerApuestas = useCallback(async (mercado) => {
     
@@ -59,7 +63,7 @@ const ApuestaProvider = ({ children }) => {
 
   const obtenerMercados = async() => {
     const mercados = []
-    const q = query(collection(db, "mercados"), orderBy("id", "asc"));
+    const q = query(collection(db, "mercados"), orderBy("nombre_mercado", "asc"));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       mercados.push(doc.data());
@@ -152,7 +156,36 @@ const ApuestaProvider = ({ children }) => {
     });
     obtenerLigas()
   }
+
+  const seleccionEditarMercado = (mercadoEditado) => {
+    setActualizarMercadoFiltrado(mercadoEditado)
+    setShowModalMercado(true)
+    setEditandoMercado(true)
+  }
   
+  const crearMercado = async (mercado) => {
+
+    const nuevoMercado = {
+      id: mercados.length + 1,
+      nombre_mercado: mercado
+    }
+
+    await addDoc(collection(db, "mercados"), nuevoMercado)
+    obtenerMercados()
+  };
+
+  const editarMercado = async(mercadoEditado) => {
+    
+    const q = query(collection(db, "mercados"), where("id", "==", mercadoEditado.id));
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach(async(docu) => {
+      const mercadoRef = doc(db, "mercados", docu.id);
+      await updateDoc(mercadoRef, mercadoEditado)
+    });
+    obtenerMercados()
+  }
+
 
   return (
     <ApuestaContext.Provider
@@ -177,7 +210,15 @@ const ApuestaProvider = ({ children }) => {
         editandoLiga,
         actualizarLigaFiltrada,
         editarLiga,
-        setEditandoLiga
+        setEditandoLiga,
+        setShowModalMercado,
+        showModalMercado,
+        seleccionEditarMercado,
+        crearMercado,
+        editandoMercado,
+        setEditandoMercado,
+        actualizarMercadoFiltrado,
+        editarMercado
       }}
     >
       {children}
