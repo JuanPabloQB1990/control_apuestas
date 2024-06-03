@@ -71,14 +71,9 @@ const ControlApuestas = () => {
   const handleShow = () => setShow(true);
 
   const handleSeleccionMercado = (e) => {
-    
     obtenerApuestas(e.target.value)
-    
   }
-  
-  
-  
-
+ 
   return (
     <div>
       <div className="info-control">
@@ -89,14 +84,14 @@ const ControlApuestas = () => {
         <div className="info info-5">Stake 1</div>
         <div className="info info-6">{formatearGanancia((1*userData.bank_inicial)/100)}</div>
         <div className="info info-7">Yield</div>
-        <div className={`info info-8 ${((gananciaNeta/totalInvertido)*100).toFixed(2) > 0 ? "text-success" : "text-danger"}`}>{((gananciaNeta/totalInvertido)*100).toFixed(2)} %</div>
+        <div className={`info info-8 ${((gananciaNeta/totalInvertido)*100).toFixed(2) > 0 ? "texto-verde" : "texto-rojo"}`}>{((gananciaNeta/totalInvertido)*100).toFixed(2)} %</div>
         <div className="info info-9">Total Picks</div>
         <div className="info info-10">{apuestasUsuario.length}</div>
         <div className="info info-11">Ganados</div>
         <div className="info info-12">{ganadas}</div>
         <div className="info info-13">% Acierto</div>
-        <div className={`info info-14 ${(ganadas/totalApuestas*100).toFixed(2) > 0 ? "text-success" : "text-danger"}`}>{(ganadas/totalApuestas*100).toFixed(2)} %</div>
-        <div className="info info-15">Total Perdido</div>
+        <div className={`info info-14 ${(ganadas/totalApuestas*100).toFixed(2) > 0 ? "texto-verde" : "texto-rojo"}`}>{(ganadas/totalApuestas*100).toFixed(2)} %</div>
+        <div className="info info-15">Perdido</div>
         <div className="info info-16">{formatearGanancia(totalPerdido)}</div>
         <div className="info info-17">Perdidos</div>
         <div className="info info-18">{perdidas}</div>
@@ -109,8 +104,6 @@ const ControlApuestas = () => {
             Agregar Apuesta{" "}
             
           </button>
-          
-
           <select className="form-select mx-4" aria-label="Default select example" name="mercado" defaultValue="todos" onChange={handleSeleccionMercado}>
             <option selected>Todos los mercados</option>
               {mercados.map(mercado => {
@@ -120,12 +113,12 @@ const ControlApuestas = () => {
         </div>
         <div className="info info-20">Nulas</div>
         <div className="info info-21">{nulas}</div>
-        <div className="info info-22">Cuota Media</div>
+        <div className="info info-22">Cuota</div>
         <div className="info info-23">{promCuota.toFixed(2)}</div>
-        <div className="info info-24">Total Invertido</div>
+        <div className="info info-24">Invertido</div>
         <div className="info info-25">{formatearGanancia(totalInvertido)}</div>
-        <div className="info info-26">Ganancia Neta</div>
-        <div className={`info info-27 text-danger ${formatearGanancia(gananciaNeta) > 0 ? "text-success" : "text-danger"}`}>{formatearGanancia(gananciaNeta)}</div>
+        <div className="info info-26">Ganancia</div>
+        <div className={`info info-27 ${formatearGanancia(gananciaNeta) > 0 ? "texto-verde" : "texto-rojo"}`}>{formatearGanancia(gananciaNeta)}</div>
       </div>
       <Apuestas />
     </div>

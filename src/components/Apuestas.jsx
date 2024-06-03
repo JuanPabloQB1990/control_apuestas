@@ -24,7 +24,7 @@ const handleEditarApuesta = (apuesta) => {
             <th>Inversion</th>
             <th>Resultado</th>
             <th>Ganancia</th>
-            <th>Ver Apuesta</th>
+            <th className="px-3">Ver Apuesta</th>
         </tr>
       </thead>
       <tbody>
