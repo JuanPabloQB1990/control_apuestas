@@ -191,7 +191,7 @@ const ModalCrearApuesta = () => {
   };
 
   return (
-    <Modal show={show} onHide={handleClose} fullscreen="xxl-down">
+    <Modal show={show} onHide={handleClose} fullscreen={true}>
       <Modal.Header closeButton>
         <Modal.Title>Crear Apuesta</Modal.Title>
       </Modal.Header>
